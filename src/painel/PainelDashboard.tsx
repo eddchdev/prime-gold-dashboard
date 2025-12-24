@@ -225,18 +225,19 @@ interface MetricCardProps {
 function MetricCard({ title, value, subtitle, icon: Icon, delay = 0 }: MetricCardProps) {
   return (
     <BlurFade delay={delay}>
-      <div className="bg-card rounded-2xl p-6 border border-border/50">
+      <div className="relative bg-[hsl(220,20%,14%)] rounded-2xl p-6 border border-[hsl(220,40%,25%)] overflow-hidden">
+        {/* Left accent border */}
+        <div className="absolute left-0 top-0 bottom-0 w-1 bg-[hsl(217,91%,60%)] rounded-l-2xl" />
+        
         <div className="flex items-start justify-between mb-4">
-          <span className="text-[11px] font-medium tracking-wide text-muted-foreground uppercase">
+          <span className="text-[13px] font-normal text-muted-foreground">
             {title}
           </span>
-          <div className="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center">
-            <Icon className="w-4 h-4 text-primary" />
-          </div>
+          <Icon className="w-5 h-5 text-muted-foreground/60" />
         </div>
-        <p className="text-3xl font-semibold text-foreground">{value}</p>
+        <p className="text-4xl font-semibold text-foreground tracking-tight">{value}</p>
         {subtitle && (
-          <p className="text-[12px] text-muted-foreground mt-1">{subtitle}</p>
+          <p className="text-[12px] text-muted-foreground mt-1.5">{subtitle}</p>
         )}
       </div>
     </BlurFade>
