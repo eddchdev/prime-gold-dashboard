@@ -54,6 +54,7 @@ function FadeInView({
 // ============================================
 function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [activeLink, setActiveLink] = useState("#inicio");
   
   const navLinks = [
     { label: "Início", href: "#inicio" },
@@ -64,17 +65,17 @@ function Header() {
   ];
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border/30">
+    <header className="fixed top-0 left-0 right-0 z-50 bg-background/90 backdrop-blur-md border-b border-border/20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 lg:h-20">
           {/* Logo */}
           <a href="#inicio" className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-primary/70 flex items-center justify-center">
-              <span className="text-primary-foreground font-bold text-lg">PC</span>
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary/20 to-primary/10 border border-primary/30 flex items-center justify-center">
+              <span className="text-primary font-bold text-lg">PC</span>
             </div>
-            <div className="hidden sm:block">
-              <span className="text-lg font-semibold text-foreground">PRIME</span>
-              <span className="text-lg font-semibold text-primary ml-1">CARROS</span>
+            <div className="hidden sm:flex items-center">
+              <span className="text-lg tracking-wider font-semibold text-muted-foreground">PRIME</span>
+              <span className="text-lg tracking-wider font-bold text-primary ml-1.5">CARROS</span>
             </div>
           </a>
 
@@ -84,9 +85,18 @@ function Header() {
               <a
                 key={link.href}
                 href={link.href}
-                className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                onClick={() => setActiveLink(link.href)}
+                className={cn(
+                  "text-sm transition-colors relative py-1",
+                  activeLink === link.href 
+                    ? "text-primary font-medium" 
+                    : "text-muted-foreground hover:text-foreground"
+                )}
               >
                 {link.label}
+                {activeLink === link.href && (
+                  <span className="absolute -bottom-1 left-0 right-0 h-0.5 bg-primary rounded-full" />
+                )}
               </a>
             ))}
           </nav>
@@ -96,9 +106,9 @@ function Header() {
             href="https://wa.me/5551995101900"
             target="_blank"
             rel="noopener noreferrer"
-            className="hidden lg:flex items-center gap-2 px-5 py-2.5 rounded-full border border-primary/50 text-foreground text-sm font-medium hover:bg-primary/10 transition-colors"
+            className="hidden lg:flex items-center gap-2 px-5 py-2.5 rounded-full border border-primary/40 text-foreground text-sm font-medium hover:bg-primary/10 transition-colors"
           >
-            <Phone className="w-4 h-4 text-primary" />
+            <MessageCircle className="w-4 h-4 text-primary" />
             Contato
           </a>
 
@@ -127,7 +137,7 @@ function Header() {
                 <a
                   key={link.href}
                   href={link.href}
-                  onClick={() => setMobileMenuOpen(false)}
+                  onClick={() => { setMobileMenuOpen(false); setActiveLink(link.href); }}
                   className="px-4 py-3 text-muted-foreground hover:text-foreground hover:bg-card rounded-lg transition-colors"
                 >
                   {link.label}
@@ -155,7 +165,7 @@ function Header() {
 // ============================================
 function HeroSection() {
   return (
-    <section id="inicio" className="relative min-h-screen flex items-center pt-20">
+    <section id="inicio" className="relative min-h-screen flex items-center justify-center pt-20">
       {/* Background */}
       <div className="absolute inset-0">
         <div 
@@ -164,58 +174,50 @@ function HeroSection() {
             backgroundImage: `url('https://images.unsplash.com/photo-1603584173870-7f23fdae1b7a?q=80&w=2069&auto=format&fit=crop')`,
           }}
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-background via-background/95 to-background/60" />
-        <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-background/30" />
+        <div className="absolute inset-0 bg-gradient-to-r from-background/90 via-background/70 to-background/50" />
+        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/30 to-background/40" />
       </div>
 
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-32">
-        <div className="max-w-2xl">
-          <FadeInView>
-            <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl text-foreground leading-tight">
-              Transparência em cada detalhe.
-              <br />
-              <span className="text-primary">Confiança em cada carro.</span>
-            </h1>
-          </FadeInView>
+      <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-32 text-center">
+        <FadeInView>
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl text-foreground leading-tight italic">
+            <span className="font-light">Transparência em cada detalhe.</span>
+            <br />
+            <span className="text-primary font-light">Confiança em cada carro.</span>
+          </h1>
+        </FadeInView>
 
-          <FadeInView delay={0.1}>
-            <p className="mt-6 text-lg text-muted-foreground max-w-xl">
-              Encontre o carro dos seus sonhos com segurança, qualidade e confiança.
-            </p>
-          </FadeInView>
+        <FadeInView delay={0.1}>
+          <p className="mt-8 text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto">
+            Encontre o carro dos seus sonhos com segurança, qualidade e confiança.
+          </p>
+        </FadeInView>
 
-          <FadeInView delay={0.2}>
-            <div className="mt-8 flex flex-col sm:flex-row gap-4">
-              <a
-                href="#estoque"
-                className="inline-flex items-center justify-center gap-2 px-7 py-3.5 bg-primary text-primary-foreground rounded-lg font-medium hover:opacity-90 transition-opacity"
-              >
-                Fale Conosco
-              </a>
-              <a
-                href="#estoque"
-                className="inline-flex items-center justify-center gap-2 px-7 py-3.5 bg-card border border-border text-foreground rounded-lg font-medium hover:bg-card/80 transition-colors"
-              >
-                Ver Estoque
-              </a>
-            </div>
-          </FadeInView>
+        <FadeInView delay={0.2}>
+          <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+            <a
+              href="https://wa.me/5551995101900"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-transparent border-2 border-primary/60 text-foreground rounded-lg font-medium hover:bg-primary/10 transition-all min-w-[180px]"
+            >
+              Fale Conosco
+            </a>
+            <a
+              href="#estoque"
+              className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-card/50 border border-border/50 text-foreground rounded-lg font-medium hover:bg-card/80 transition-colors min-w-[180px]"
+            >
+              Ver Estoque
+            </a>
+          </div>
+        </FadeInView>
 
-          {/* Trust Badges */}
-          <FadeInView delay={0.3}>
-            <div className="mt-12 flex flex-wrap gap-6">
-              {[
-                { icon: Shield, text: "Seminovos rigorosamente selecionados" },
-                { icon: FileCheck, text: "Garantia Real" },
-              ].map((badge, i) => (
-                <div key={i} className="flex items-center gap-2 text-sm text-muted-foreground">
-                  <badge.icon className="w-4 h-4 text-primary" />
-                  <span>{badge.text}</span>
-                </div>
-              ))}
-            </div>
-          </FadeInView>
-        </div>
+        {/* Scroll indicator */}
+        <FadeInView delay={0.4}>
+          <div className="mt-16 flex justify-center">
+            <div className="w-0.5 h-12 bg-gradient-to-b from-primary to-transparent rounded-full" />
+          </div>
+        </FadeInView>
       </div>
     </section>
   );
